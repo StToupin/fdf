@@ -40,7 +40,7 @@ int			init(t_env *env)
 	env->mlx_win = NULL;
 	env->theta = 45. * M_PI / 180.;
 	env->phi = 30. * M_PI / 180.;
-	env->scale = (t_coord3){20., 20., 20.};
+	env->scale = (t_coord3){50., 50., 50.};
 	env->pm = make_projection(env->phi, env->theta);
 	my_malloc_init(&(env->allocated));
 	err = init_mlx(env);

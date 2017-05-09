@@ -25,8 +25,8 @@ t_proj_matrix	make_projection(double phi, double theta)
 	s_phi = sin(phi);
 	c_theta = cos(theta);
 	s_theta = sin(theta);
-	m.v0 = (t_coord3){c_phi * s_theta, c_phi * c_theta, -s_phi * s_theta};
-	m.v1 = (t_coord3){s_phi * s_theta, s_phi * c_theta, c_phi * s_theta};
+	m.v0 = (t_coord3){c_phi, -s_phi, 0.};
+	m.v1 = (t_coord3){s_phi * c_theta, c_phi * c_theta, s_theta};
 	return (m);
 }
 

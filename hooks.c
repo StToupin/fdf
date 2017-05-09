@@ -22,8 +22,6 @@ int		hook_close(t_env *env)
 
 int		hook_key(int key, t_env *env)
 {
-	(void)env;
-
 	if (key == KEY_ESC)
 		die(env);
 	if (key == KEY_UP)
@@ -33,7 +31,7 @@ int		hook_key(int key, t_env *env)
 	if (key == KEY_LEFT)
 		env->phi -= 10. * M_PI / 180.;
 	if (key == KEY_RIGHT)
-		env->phi -= 10. * M_PI / 180.;
+		env->phi += 10. * M_PI / 180.;
 	draw(env);
 	return (0);
 }

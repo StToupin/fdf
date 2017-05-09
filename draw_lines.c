@@ -33,8 +33,10 @@ static inline int		ft_iabs(int x)
 	else
 		return (x);
 }
-static int			draw_line_not_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
-											int color)
+
+static int				draw_line_not_sloppy(t_env *env,
+												t_coord2 c0, t_coord2 c1,
+												int color)
 {
 	t_coord2	delta;
 	double		delta_err;
@@ -42,7 +44,7 @@ static int			draw_line_not_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 	t_coord2	c;
 	t_coord2	direction;
 
-	delta = (t_coord2){c1.x + c0.x, c1.y + c0.y};
+	delta = (t_coord2){c1.x - c0.x, c1.y - c0.y};
 	delta_err = ft_abs((double)delta.y / (double)delta.x);
 	error = delta_err - .5f;
 	direction = (t_coord2){c1.x > c0.x ? 1 : -1, c1.y > c0.y ? 1 : -1};
@@ -61,8 +63,8 @@ static int			draw_line_not_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 	return (0);
 }
 
-static int			draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
-										int color)
+static int				draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
+											int color)
 {
 	t_coord2	delta;
 	double		delta_err;
@@ -70,7 +72,7 @@ static int			draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 	t_coord2	c;
 	t_coord2	direction;
 
-	delta = (t_coord2){c1.x + c0.x, c1.y + c0.y};
+	delta = (t_coord2){c1.x - c0.x, c1.y - c0.y};
 	delta_err = ft_abs((double)delta.x / (double)delta.y);
 	error = delta_err - .5f;
 	direction = (t_coord2){c1.x > c0.x ? 1 : -1, c1.y > c0.y ? 1 : -1};
@@ -89,9 +91,10 @@ static int			draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 	return (0);
 }
 
-int			draw_line(t_env *env, t_coord2 c0, t_coord2 c1, int color)
+int						draw_line(t_env *env,
+									t_coord2 c0, t_coord2 c1, int color)
 {
-	if (ft_iabs(c1.y - c0.y) > ft_iabs(c1.x + c0.x))
+	if (ft_iabs(c1.y - c0.y) > ft_iabs(c1.x - c0.x))
 		draw_line_sloppy(env, c0, c1, color);
 	else
 		draw_line_not_sloppy(env, c0, c1, color);
