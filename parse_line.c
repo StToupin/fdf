@@ -25,7 +25,7 @@ int		count_numbers(char *line)
 	{
 		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\0')
 		{
-			if (i - pos - 1 > 0)
+			if (i - pos > 1)
 				count++;
 			pos = i;
 		}
@@ -33,7 +33,6 @@ int		count_numbers(char *line)
 			return (count);
 		i++;
 	}
-	return (count);
 }
 
 void	read_numbers(char *line, int *tab)

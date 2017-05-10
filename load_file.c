@@ -22,6 +22,8 @@ int	load_file(t_env *env, int fd)
 	env->height = 0;
 	while (get_next_line(&(env->allocated), fd, &line) == 1)
 	{
+		if (line[0] == '\0')
+			continue ;
 		n_numbers = count_numbers(line);
 		if (env->width == -1)
 			env->width = n_numbers;

@@ -23,7 +23,7 @@ void	*my_malloc(t_allocated **a_list, size_t size)
 	void		*ptr;
 	t_allocated	*elem;
 
-	ptr = malloc(size + sizeof(elem));
+	ptr = malloc(size + sizeof(t_allocated));
 	if (ptr == NULL)
 		return (NULL);
 	elem = (t_allocated*)ptr;
