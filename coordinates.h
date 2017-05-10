@@ -19,6 +19,13 @@ typedef struct	s_coord2
 	double y;
 }				t_coord2;
 
+typedef struct	s_coord2c
+{
+	double	x;
+	double	y;
+	double	c;
+}				t_coord2c;
+
 typedef struct	s_coord3
 {
 	double x;

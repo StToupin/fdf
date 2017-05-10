@@ -35,13 +35,13 @@ static inline int		ft_iabs(int x)
 }
 
 static int				draw_line_not_sloppy(t_env *env,
-												t_coord2 c0, t_coord2 c1,
-												int color)
+												t_coord2c c0, t_coord2c c1,
+												int (*fcolor)(double))
 {
 	t_coord2	delta;
 	double		delta_err;
 	double		error;
-	t_coord2	c;
+	t_coord2c	c;
 	t_coord2	direction;
 
 	delta = (t_coord2){c1.x - c0.x, c1.y - c0.y};
@@ -51,7 +51,9 @@ static int				draw_line_not_sloppy(t_env *env,
 	c = c0;
 	while (c.x * direction.x <= c1.x * direction.x)
 	{
-		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y, color);
+		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y,
+						(*fcolor)(c0.c + (c.x - c0.x) /
+											(c1.x - c0.x) * (c1.c - c0.c)));
 		error += delta_err;
 		if (error > .5f)
 		{
@@ -63,13 +65,13 @@ static int				draw_line_not_sloppy(t_env *env,
 	return (0);
 }
 
-static int				draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
-											int color)
+static int				draw_line_sloppy(t_env *env, t_coord2c c0, t_coord2c c1,
+											int (*fcolor)(double))
 {
 	t_coord2	delta;
 	double		delta_err;
 	double		error;
-	t_coord2	c;
+	t_coord2c	c;
 	t_coord2	direction;
 
 	delta = (t_coord2){c1.x - c0.x, c1.y - c0.y};
@@ -79,7 +81,9 @@ static int				draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 	c = c0;
 	while (c.y * direction.y <= c1.y * direction.y)
 	{
-		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y, color);
+		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y,
+						(*fcolor)(c0.c + (c.y - c0.y) /
+											(c1.y - c0.y) * (c1.c - c0.c)));
 		error += delta_err;
 		if (error > .5f)
 		{
@@ -92,11 +96,12 @@ static int				draw_line_sloppy(t_env *env, t_coord2 c0, t_coord2 c1,
 }
 
 int						draw_line(t_env *env,
-									t_coord2 c0, t_coord2 c1, int color)
+									t_coord2c c0, t_coord2c c1,
+									int (*fcolor)(double))
 {
 	if (ft_iabs(c1.y - c0.y) > ft_iabs(c1.x - c0.x))
-		draw_line_sloppy(env, c0, c1, color);
+		draw_line_sloppy(env, c0, c1, fcolor);
 	else
-		draw_line_not_sloppy(env, c0, c1, color);
+		draw_line_not_sloppy(env, c0, c1, fcolor);
 	return (0);
 }

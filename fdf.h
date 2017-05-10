@@ -43,8 +43,9 @@ void			die(t_env *env);
 int				hook_close(t_env *env);
 int				hook_key(int key, t_env *env);
 
-int				draw_line(t_env *env, t_coord2 c0, t_coord2 c1, int color);
+int				draw_line(t_env *env, t_coord2c c0, t_coord2c c1,
+							int (*fcolor)(double));
 
-void			draw(t_env *env);
+void			draw_gizmo(t_env *env);
 
 #endif

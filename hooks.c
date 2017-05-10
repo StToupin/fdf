@@ -32,6 +32,6 @@ int		hook_key(int key, t_env *env)
 		env->phi -= 10. * M_PI / 180.;
 	if (key == KEY_RIGHT)
 		env->phi += 10. * M_PI / 180.;
-	draw(env);
+	draw_gizmo(env);
 	return (0);
 }
