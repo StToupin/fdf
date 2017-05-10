@@ -21,7 +21,6 @@ int	color_jet(double x)
 	t_coord3	rgb;
 	int			irgb;
 
-	x = 2. * (x - .5);
 	if (x < .25)
 		rgb = (t_coord3){0., 4. * x, 1.};
 	else if (x < .5)

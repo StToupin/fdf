@@ -48,7 +48,7 @@ int			main(int argc, char **argv)
 		return (ft_putstr_fd("Error while loading the file.\n", 2) & die(&env));
 	err = init_mlx(&env);
 	if (err)
-		return (ft_putstr_fd("Error while displaying the data.\n", 2) & die(&env));
+		ft_putstr_fd("Error while displaying the data.\n", 2);
 	die(&env);
 	return (0);
 }

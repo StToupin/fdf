@@ -35,11 +35,9 @@ double			dot_product3(t_coord3 v0, t_coord3 v1)
 	return (v0.x * v1.x + v0.y * v1.y + v0.z * v1.z);
 }
 
-void			do_scale(t_coord3 *c3, t_coord3 scale)
+t_coord3		do_scale(t_coord3 c3, t_coord3 scale)
 {
-	c3->x *= scale.x;
-	c3->y *= scale.y;
-	c3->z *= scale.z;
+	return ((t_coord3){c3.x * scale.x, c3.y * scale.y, c3.z * scale.z});
 }
 
 t_coord2		do_projection(t_proj_matrix *m, t_coord3 c3)

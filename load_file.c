@@ -14,7 +14,30 @@
 #include "get_next_line.h"
 #include "ilist.h"
 
-int	load_file(t_env *env, int fd)
+static void	calc_extremums(t_env *env)
+{
+	int x;
+	int y;
+
+	env->z_min = env->map[0][0];
+	env->z_max = env->map[0][0];
+	y = 0;
+	while (y < env->dim.y)
+	{
+		x = 0;
+		while (x < env->dim.x)
+		{
+			if (env->map[y][x] < env->z_min)
+				env->z_min = env->map[y][x];
+			if (env->map[y][x] > env->z_max)
+				env->z_max = env->map[y][x];
+			x++;
+		}
+		y++;
+	}
+}
+
+int			load_file(t_env *env, int fd)
 {
 	char	*line;
 	int		n_numbers;
@@ -39,5 +62,6 @@ int	load_file(t_env *env, int fd)
 		my_malloc_free(&(env->allocated), line);
 	}
 	env->map = ilist_join(&(env->allocated), &ilist);
+	calc_extremums(env);
 	return (0);
 }

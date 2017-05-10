@@ -26,19 +26,19 @@ int	init_mlx(t_env *env)
 		return (1);
 	mlx_hook(env->mlx_win, 17, 0, &hook_close, env);
 	mlx_key_hook(env->mlx_win, &hook_key, env);
-	draw_gizmo(env);
+	draw_grid(env);
 	mlx_loop(env->mlx_ptr);
 	return (0);
 }
 
 int	init(t_env *env)
 {
-	env->win_dim = (t_coord2){640., 480.};
+	env->win_dim = (t_coord2){1920., 1080.};
 	env->mlx_ptr = NULL;
 	env->mlx_win = NULL;
 	env->theta = 45. * M_PI / 180.;
 	env->phi = 30. * M_PI / 180.;
-	env->scale = (t_coord3){50., 50., 50.};
+	env->scale = (t_coord3){30., 30., 30.};
 	my_malloc_init(&(env->allocated));
 	return (0);
 }

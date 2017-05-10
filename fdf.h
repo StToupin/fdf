@@ -21,7 +21,11 @@ typedef	enum	e_key
 	KEY_UP = 126,
 	KEY_DOWN = 125,
 	KEY_LEFT = 123,
-	KEY_RIGHT = 124
+	KEY_RIGHT = 124,
+	KEY_MINUS = 78,
+	KEY_PLUS = 69,
+	KEY_PAGEUP = 116,
+	KEY_PAGEDOWN = 121
 }				t_key;
 
 typedef struct	s_env
@@ -29,6 +33,8 @@ typedef struct	s_env
 	t_allocated		*allocated;
 	t_coord2		dim;
 	int				**map;
+	int				z_min;
+	int				z_max;
 	void			*mlx_ptr;
 	void			*mlx_win;
 	t_coord2		win_dim;
@@ -56,6 +62,6 @@ int				hook_key(int key, t_env *env);
 int				draw_line(t_env *env, t_coord2c c0, t_coord2c c1,
 							int (*fcolor)(double));
 
-void			draw_gizmo(t_env *env);
+void			draw_grid(t_env *env);
 
 #endif

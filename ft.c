@@ -47,7 +47,6 @@ void		ft_putnbr_fd(int n, int fd)
 		print_digit(n, fd);
 }
 
-
 static int	is_forbidden(char c)
 {
 	if (c <= 8)

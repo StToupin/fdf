@@ -40,7 +40,7 @@ typedef struct	s_proj_matrix
 }				t_proj_matrix;
 
 t_proj_matrix	make_projection(double phi, double theta);
-void			do_scale(t_coord3 *c3, t_coord3 scale);
+t_coord3		do_scale(t_coord3 c3, t_coord3 scale);
 t_coord2		do_projection(t_proj_matrix *m, t_coord3 c3);
 
 #endif
