@@ -27,9 +27,33 @@ void	*my_malloc(t_allocated **a_list, size_t size)
 	if (ptr == NULL)
 		return (NULL);
 	elem = (t_allocated*)ptr;
+	elem->ptr = ptr + sizeof(t_allocated);
 	elem->next = *a_list;
 	*a_list = elem;
-	return (ptr + sizeof(t_allocated));
+	return (elem->ptr);
+}
+
+void	my_malloc_free(t_allocated **a_list, void *ptr)
+{
+	t_allocated *elem;
+	t_allocated *prev;
+
+	prev = NULL;
+	elem = *a_list;
+	while (elem != NULL)
+	{
+		if (elem->ptr == ptr)
+		{
+			if (prev == NULL)
+				*a_list = elem->next;
+			else
+				prev->next = elem->next;
+			free(elem);
+			break ;
+		}
+		prev = elem;
+		elem = elem->next;
+	}
 }
 
 void	my_malloc_cleanup(t_allocated **a_list)

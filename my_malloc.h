@@ -22,6 +22,7 @@ typedef struct	s_allocated
 
 void			my_malloc_init(t_allocated **a_list);
 void			*my_malloc(t_allocated **a_list, size_t size);
+void			my_malloc_free(t_allocated **a_list, void *ptr);
 void			my_malloc_cleanup(t_allocated **a_list);
 
 #endif

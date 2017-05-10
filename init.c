@@ -15,7 +15,7 @@
 #include "my_malloc.h"
 #include "mlx.h"
 
-static int	init_mlx(t_env *env)
+int	init_mlx(t_env *env)
 {
 	env->mlx_ptr = mlx_init();
 	if (env->mlx_ptr == NULL)
@@ -31,10 +31,8 @@ static int	init_mlx(t_env *env)
 	return (0);
 }
 
-int			init(t_env *env)
+int	init(t_env *env)
 {
-	int err;
-
 	env->win_dim = (t_coord2){640., 480.};
 	env->mlx_ptr = NULL;
 	env->mlx_win = NULL;
@@ -42,8 +40,5 @@ int			init(t_env *env)
 	env->phi = 30. * M_PI / 180.;
 	env->scale = (t_coord3){50., 50., 50.};
 	my_malloc_init(&(env->allocated));
-	err = init_mlx(env);
-	if (err)
-		return (err);
 	return (0);
 }

@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
+#include "my_malloc.h"
 #include "slist.h"
 #include "get_next_line.h"
 
-static t_openfile	*get_openfile(t_openfile **oflist, int fd)
+static t_openfile	*get_openfile(t_allocated **a_list,
+									t_openfile **oflist, int fd)
 {
 	t_openfile	*elem;
 	int			found;
@@ -31,7 +32,7 @@ static t_openfile	*get_openfile(t_openfile **oflist, int fd)
 	}
 	if (!found)
 	{
-		elem = (t_openfile*)malloc(sizeof(t_openfile));
+		elem = (t_openfile*)my_malloc(a_list, sizeof(t_openfile));
 		if (elem == NULL)
 			return (NULL);
 		elem->fd = fd;
@@ -44,7 +45,8 @@ static t_openfile	*get_openfile(t_openfile **oflist, int fd)
 	return (elem);
 }
 
-static int			del_openfile(t_openfile **oflist, int fd)
+static int			del_openfile(t_allocated **a_list,
+									t_openfile **oflist, int fd)
 {
 	t_openfile *elem;
 	t_openfile *prev;
@@ -60,11 +62,12 @@ static int			del_openfile(t_openfile **oflist, int fd)
 		*oflist = elem->next;
 	else
 		prev->next = elem->next;
-	free(elem);
+	my_malloc_free(a_list, elem);
 	return (0);
 }
 
-static int			expand_str(t_slist *slist, t_openfile *of)
+static int			expand_str(t_allocated **a_list,
+								t_slist *slist, t_openfile *of)
 {
 	int		keep_on_reading;
 	size_t	i;
@@ -78,24 +81,26 @@ static int			expand_str(t_slist *slist, t_openfile *of)
 		else
 			i++;
 	}
-	slist_push_front(slist, of->buf_pos, i);
+	slist_push_front(a_list, slist, of->buf_pos, i);
 	of->buf_pos += i + 1;
 	return (keep_on_reading);
 }
 
-int					get_next_line(const int fd, char **line)
+int					get_next_line(t_allocated **a_list,
+									const int fd, char **line)
 {
 	static t_openfile	*oflist = NULL;
 	t_openfile			*of;
 	t_slist				slist;
 
-	if (fd < 0 || line == NULL || (of = get_openfile(&oflist, fd)) == NULL)
+	if (fd < 0 || line == NULL
+		|| (of = get_openfile(a_list, &oflist, fd)) == NULL)
 		return (-1);
 	*line = NULL;
 	if (of->eof == 1)
-		return (del_openfile(&oflist, fd));
+		return (del_openfile(a_list, &oflist, fd));
 	slist_create(&slist);
-	while (of->eof == 0 && expand_str(&slist, of))
+	while (of->eof == 0 && expand_str(a_list, &slist, of))
 	{
 		if ((of->buf_size = read(fd, of->buf, BUFF_SIZE)) == -1)
 			return (-1);
@@ -105,7 +110,7 @@ int					get_next_line(const int fd, char **line)
 	if (slist.len == 0 && of->eof == 0)
 		return (-1);
 	if (of->eof && slist.len == 0)
-		return (del_openfile(&oflist, fd));
-	*line = slist_join(&slist);
+		return (del_openfile(a_list, &oflist, fd));
+	*line = slist_join(a_list, &slist);
 	return (1);
 }

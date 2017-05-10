@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "my_malloc.h"
 #include "slist.h"
 
 static void	ft_strncpy(char *dest, char *src, size_t len)
@@ -33,11 +33,12 @@ void		slist_create(t_slist *slist)
 	slist->last = NULL;
 }
 
-int			slist_push_front(t_slist *slist, char *s, size_t len)
+int			slist_push_front(t_allocated **a_list,
+								t_slist *slist, char *s, size_t len)
 {
 	t_slist_elem	*element;
 
-	element = (t_slist_elem*)malloc(sizeof(t_slist_elem)
+	element = (t_slist_elem*)my_malloc(a_list, sizeof(t_slist_elem)
 									+ sizeof(char) * (len + 1));
 	if (element == NULL)
 		return (1);
@@ -57,7 +58,8 @@ int			slist_push_front(t_slist *slist, char *s, size_t len)
 	return (0);
 }
 
-void		slist_pop_back(t_slist *slist, char *dest, size_t *len)
+void		slist_pop_back(t_allocated **a_list,
+							t_slist *slist, char *dest, size_t *len)
 {
 	t_slist_elem	*element;
 
@@ -74,22 +76,22 @@ void		slist_pop_back(t_slist *slist, char *dest, size_t *len)
 	slist->total_len -= element->len;
 	*len = element->len;
 	ft_strncpy(dest, element->s, *len);
-	free(element);
+	my_malloc_free(a_list, element);
 }
 
-char		*slist_join(t_slist *slist)
+char		*slist_join(t_allocated **a_list, t_slist *slist)
 {
 	char	*joined;
 	size_t	elem_len;
 	size_t	copied;
 
-	joined = (char*)malloc(sizeof(char) * (slist->total_len + 1));
+	joined = (char*)my_malloc(a_list, sizeof(char) * (slist->total_len + 1));
 	if (joined == NULL)
 		return (NULL);
 	copied = 0;
 	while (slist->len > 0)
 	{
-		slist_pop_back(slist, joined + copied, &elem_len);
+		slist_pop_back(a_list, slist, joined + copied, &elem_len);
 		copied += elem_len;
 	}
 	joined[copied] = '\0';

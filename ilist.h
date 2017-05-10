@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   slist.h                                            :+:      :+:    :+:   */
+/*   ilist.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stoupin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,31 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SLIST_H
-# define SLIST_H
+#ifndef ILIST_H
+# define ILIST_H
 # include "my_malloc.h"
 
-typedef struct	s_slist_elem
+typedef struct	s_ilist_elem
 {
 	size_t				len;
-	char				*s;
-	struct s_slist_elem	*prev;
-	struct s_slist_elem	*next;
-}				t_slist_elem;
+	int					*s;
+	struct s_ilist_elem	*prev;
+	struct s_ilist_elem	*next;
+}				t_ilist_elem;
 
-typedef struct	s_slist
+typedef struct	s_ilist
 {
-	t_slist_elem	*first;
-	t_slist_elem	*last;
+	t_ilist_elem	*first;
+	t_ilist_elem	*last;
 	size_t			len;
 	size_t			total_len;
-}				t_slist;
+}				t_ilist;
 
-void			slist_create(t_slist *slist);
-int				slist_push_front(t_allocated **a_list,
-									t_slist *slist, char *s, size_t len);
-void			slist_pop_back(t_allocated **a_list,
-								t_slist *slist, char *dest, size_t *len);
-char			*slist_join(t_allocated **a_list, t_slist *slist);
+void			ilist_create(t_ilist *ilist);
+int				ilist_push_front(t_allocated **a_list,
+									t_ilist *ilist, char *s, size_t len);
+void			ilist_pop_back(t_allocated **a_list,
+								t_ilist *ilist, int *dest, size_t *len);
+int				**ilist_join(t_allocated **a_list, t_ilist *ilist);
 
 #endif

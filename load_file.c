@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   load_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stoupin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/09 14:54:27 by stoupin           #+#    #+#             */
-/*   Updated: 2017/05/09 14:54:28 by stoupin          ###   ########.fr       */
+/*   Created: 2017/05/10 14:09:46 by stoupin           #+#    #+#             */
+/*   Updated: 2017/05/10 14:10:12 by stoupin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "fdf.h"
-#include "my_malloc.h"
-#include "mlx.h"
+#include "get_next_line.h"
 
-void	cleanup(t_env *env)
+int	load_file(t_env *env, int fd)
 {
-	my_malloc_cleanup(&(env->allocated));
-}
+	char	*line;
+	int		n_numbers;
 
-int		die(t_env *env)
-{
-	write(1, "Exiting gracefully.\n", 20);
-	cleanup(env);
-	if (env->mlx_win != NULL)
-		mlx_destroy_window(env->mlx_ptr, env->mlx_win);
-	exit(0);
+	env->width = -1;
+	env->height = 0;
+	while (get_next_line(&(env->allocated), fd, &line) == 1)
+	{
+		n_numbers = count_numbers(line);
+		if (env->width == -1)
+			env->width = n_numbers;
+		else if (n_numbers != env->width)
+			return (1);
+		env->height++;
+		my_malloc_free(&(env->allocated), line);
+	}
+	return (0);
 }
