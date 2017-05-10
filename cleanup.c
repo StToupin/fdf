@@ -15,15 +15,14 @@
 #include "my_malloc.h"
 #include "mlx.h"
 
-void	cleanup(t_env *env)
-{
-	my_malloc_cleanup(&(env->allocated));
-}
-
 int		die(t_env *env)
 {
-	write(1, "Exiting gracefully.\n", 20);
-	cleanup(env);
+	int count;
+
+	ft_putstr_fd("Exiting gracefully.\n", 1);
+	count = my_malloc_cleanup(&(env->allocated));
+	ft_putnbr_fd(count, 1);
+	ft_putstr_fd(" pointer(s) were left.\n", 1);
 	if (env->mlx_win != NULL)
 		mlx_destroy_window(env->mlx_ptr, env->mlx_win);
 	exit(0);

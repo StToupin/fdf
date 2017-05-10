@@ -27,8 +27,8 @@ typedef	enum	e_key
 typedef struct	s_env
 {
 	t_allocated		*allocated;
-	int				width;
-	int				height;
+	t_coord2		dim;
+	int				**map;
 	void			*mlx_ptr;
 	void			*mlx_win;
 	t_coord2		win_dim;
@@ -40,10 +40,12 @@ typedef struct	s_env
 
 int				init(t_env *env);
 int				init_mlx(t_env *env);
-void			cleanup(t_env *env);
 int				die(t_env *env);
 
+int				ft_putstr_fd(char *str, int fd);
+void			ft_putnbr_fd(int n, int fd);
 int				ft_atoi(const char *str);
+
 int				count_numbers(char *line);
 void			read_numbers(char *line, int *tab);
 int				load_file(t_env *env, int fd);

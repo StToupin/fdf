@@ -56,16 +56,20 @@ void	my_malloc_free(t_allocated **a_list, void *ptr)
 	}
 }
 
-void	my_malloc_cleanup(t_allocated **a_list)
+int		my_malloc_cleanup(t_allocated **a_list)
 {
 	t_allocated *elem;
 	t_allocated *next;
+	int			count;
 
 	elem = *a_list;
+	count = 0;
 	while (elem != NULL)
 	{
 		next = elem->next;
 		free(elem);
 		elem = next;
+		count++;
 	}
+	return (count);
 }

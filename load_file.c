@@ -12,25 +12,32 @@
 
 #include "fdf.h"
 #include "get_next_line.h"
+#include "ilist.h"
 
 int	load_file(t_env *env, int fd)
 {
 	char	*line;
 	int		n_numbers;
+	t_ilist	ilist;
+	int		err;
 
-	env->width = -1;
-	env->height = 0;
+	env->dim = (t_coord2){-1, 0};
+	ilist_create(&ilist);
 	while (get_next_line(&(env->allocated), fd, &line) == 1)
 	{
 		if (line[0] == '\0')
 			continue ;
 		n_numbers = count_numbers(line);
-		if (env->width == -1)
-			env->width = n_numbers;
-		else if (n_numbers != env->width)
+		if (env->dim.x == -1)
+			env->dim.x = n_numbers;
+		else if (n_numbers != env->dim.x)
 			return (1);
-		env->height++;
+		err = ilist_push_front(&(env->allocated), &ilist, line, n_numbers);
+		if (err)
+			return (err);
+		env->dim.y++;
 		my_malloc_free(&(env->allocated), line);
 	}
+	env->map = ilist_join(&(env->allocated), &ilist);
 	return (0);
 }
