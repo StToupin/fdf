@@ -32,8 +32,8 @@ int	init_mlx(t_env *env)
 	env->image = (int*)mlx_get_data_addr(env->image_ptr, dum, dum + 1, dum + 2);
 	mlx_hook(env->mlx_win, 17, 0, &hook_close, env);
 	mlx_hook(env->mlx_win, 2, 0, &hook_key, env);
+	mlx_loop_hook(env->mlx_ptr, &hook_loop, env);
 	mlx_expose_hook(env->mlx_win, &hook_expose, env);
-	draw_grid(env);
 	mlx_loop(env->mlx_ptr);
 	return (0);
 }
@@ -42,8 +42,11 @@ int	init(t_env *env)
 {
 	env->mlx_ptr = NULL;
 	env->mlx_win = NULL;
+	env->image = NULL;
+	env->image_ptr = NULL;
 	env->theta = 45. * M_PI / 180.;
 	env->phi = 30. * M_PI / 180.;
+	env->autorotate = 0;
 	env->scale = (t_coord3){30., 30., 30.};
 	env->color = 0;
 	my_malloc_init(&(env->allocated));

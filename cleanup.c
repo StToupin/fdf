@@ -23,6 +23,8 @@ int		die(t_env *env)
 	count = my_malloc_cleanup(&(env->allocated));
 	ft_putnbr_fd(count, 1);
 	ft_putstr_fd(" pointer(s) were left allocated.\n", 1);
+	if (env->image_ptr != NULL)
+		mlx_destroy_image(env->mlx_ptr, env->image_ptr);
 	if (env->mlx_win != NULL)
 		mlx_destroy_window(env->mlx_ptr, env->mlx_win);
 	exit(0);
