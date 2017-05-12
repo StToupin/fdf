@@ -15,6 +15,9 @@
 # include "my_malloc.h"
 # include "coordinates.h"
 
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
+
 typedef	enum	e_key
 {
 	KEY_ESC = 53,
@@ -38,11 +41,12 @@ typedef struct	s_env
 	int				z_max;
 	void			*mlx_ptr;
 	void			*mlx_win;
-	t_coord2		win_dim;
 	double			phi;
 	double			theta;
 	t_coord3		scale;
 	t_proj_matrix	pm;
+	void			*image_ptr;
+	int				*image;
 	int				color;
 }				t_env;
 

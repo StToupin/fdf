@@ -21,8 +21,8 @@ typedef struct	s_coord2
 
 typedef struct	s_coord2c
 {
-	double	x;
-	double	y;
+	int		x;
+	int		y;
 	double	c;
 }				t_coord2c;
 

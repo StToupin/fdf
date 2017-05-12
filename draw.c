@@ -35,22 +35,40 @@ static void		segment3d_altitude(t_env *env, t_coord3 c0, t_coord3 c1,
 
 	c0_proj = do_projection(&(env->pm), do_scale(c0, env->scale));
 	c1_proj = do_projection(&(env->pm), do_scale(c1, env->scale));
-	c0_proj.x += env->win_dim.x / 2.;
-	c0_proj.y = env->win_dim.y / 2. - c0_proj.y;
-	c1_proj.x += env->win_dim.x / 2.;
-	c1_proj.y = env->win_dim.y / 2. - c1_proj.y;
-	draw_line(env, (t_coord2c){c0_proj.x, c0_proj.y, c0.z},
-					(t_coord2c){c1_proj.x, c1_proj.y, c1.z},
+	c0_proj.x += WIN_WIDTH / 2.;
+	c0_proj.y = WIN_HEIGHT / 2. - c0_proj.y;
+	c1_proj.x += WIN_WIDTH / 2.;
+	c1_proj.y = WIN_HEIGHT / 2. - c1_proj.y;
+	draw_line(env, (t_coord2c){(int)c0_proj.x, (int)c0_proj.y, c0.z},
+					(t_coord2c){(int)c1_proj.x, (int)c1_proj.y, c1.z},
 					fcolor);
 }
 
 int				(*colf(t_env *env))(double)
 {
 	static int (*c_table[N_COLORS])(double) = {
-		&color_jet, &color_terrain,
+		&color_terrain, &color_jet,
 		&color_grayscale, &color_red, &color_green, &color_blue};
 
 	return (c_table[env->color]);
+}
+
+void			clear_image(t_env *env)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < WIN_HEIGHT)
+	{
+		x = 0;
+		while (x < WIN_WIDTH)
+		{
+			env->image[y * WIN_WIDTH + x] = 0;
+			x++;
+		}
+		y++;
+	}
 }
 
 void			draw_grid(t_env *env)
@@ -59,7 +77,7 @@ void			draw_grid(t_env *env)
 	int			y;
 	t_coord3	c;
 
-	mlx_clear_window(env->mlx_ptr, env->mlx_win);
+	clear_image(env);
 	env->pm = make_projection(env->phi, env->theta);
 	y = 0;
 	while (y < env->dim.y)
@@ -76,4 +94,5 @@ void			draw_grid(t_env *env)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(env, env->mlx_win, env->image_ptr, 0, 0);
 }

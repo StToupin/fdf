@@ -10,7 +10,7 @@ OBJ = $(SRC:.c=.o)
 
 all: minilibX/libmlx.a $(NAME)
 
-libft/libmlx.a:
+minilibX/libmlx.a:
 	make -C minilibX
 
 $(NAME): $(OBJ)
@@ -22,6 +22,7 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -f *.o
+	make -C minilibX clean
 
 fclean: clean
 	rm -f $(NAME)

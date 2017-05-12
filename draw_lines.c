@@ -51,9 +51,9 @@ static int				draw_line_not_sloppy(t_env *env,
 	c = c0;
 	while (c.x * direction.x <= c1.x * direction.x)
 	{
-		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y,
-						(*fcolor)(c0.c + (c.x - c0.x) /
-											(c1.x - c0.x) * (c1.c - c0.c)));
+		env->image[c.y * WIN_WIDTH + c.x] =
+			(*fcolor)(c0.c + (double)(c.x - c0.x)
+						/ (double)(c1.x - c0.x) * (c1.c - c0.c));
 		error += delta_err;
 		if (error > .5f)
 		{
@@ -81,9 +81,9 @@ static int				draw_line_sloppy(t_env *env, t_coord2c c0, t_coord2c c1,
 	c = c0;
 	while (c.y * direction.y <= c1.y * direction.y)
 	{
-		mlx_pixel_put(env->mlx_ptr, env->mlx_win, (int)c.x, (int)c.y,
-						(*fcolor)(c0.c + (c.y - c0.y) /
-											(c1.y - c0.y) * (c1.c - c0.c)));
+		env->image[c.y * WIN_WIDTH + c.x] =
+			(*fcolor)(c0.c + (double)(c.y - c0.y)
+						/ (double)(c1.y - c0.y) * (c1.c - c0.c));
 		error += delta_err;
 		if (error > .5f)
 		{
@@ -99,11 +99,9 @@ int						draw_line(t_env *env,
 									t_coord2c c0, t_coord2c c1,
 									int (*fcolor)(double))
 {
-	if (c0.x < 0 || c0.x >= env->win_dim.x
-		|| c0.y < 0 || c0.y >= env->win_dim.y)
+	if (c0.x < 0 || c0.x >= WIN_WIDTH || c0.y < 0 || c0.y >= WIN_HEIGHT)
 		return (0);
-	if (c1.x < 0 || c1.x >= env->win_dim.x
-		|| c1.y < 0 || c1.y >= env->win_dim.y)
+	if (c1.x < 0 || c1.x >= WIN_WIDTH || c1.y < 0 || c1.y >= WIN_HEIGHT)
 		return (0);
 	if (ft_iabs(c1.y - c0.y) > ft_iabs(c1.x - c0.x))
 		draw_line_sloppy(env, c0, c1, fcolor);
