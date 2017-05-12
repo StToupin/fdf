@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 NAME = fdf
 
 SRC = my_malloc.c slist.c get_next_line.c ft.c ilist.c parse_line.c \
-		load_file.c coordinates.c hooks.c colors.c draw_lines.c draw.c \
-		init.c cleanup.c main.c
+		load_file.c coordinates.c hooks.c colors_basic.c colors.c draw_lines.c \
+		draw.c init.c cleanup.c main.c
 OBJ = $(SRC:.c=.o)
 
 all: minilibX/libmlx.a $(NAME)

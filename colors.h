@@ -13,7 +13,10 @@
 #ifndef COLORS_H
 # define COLORS_H
 
+# define N_COLORS 6
+
 int	color_jet(double x);
+int	color_terrain(double x);
 int	color_grayscale(double x);
 int	color_red(double x);
 int	color_green(double x);

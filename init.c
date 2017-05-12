@@ -26,6 +26,7 @@ int	init_mlx(t_env *env)
 		return (1);
 	mlx_hook(env->mlx_win, 17, 0, &hook_close, env);
 	mlx_key_hook(env->mlx_win, &hook_key, env);
+	mlx_expose_hook(env->mlx_win, &hook_expose, env);
 	draw_grid(env);
 	mlx_loop(env->mlx_ptr);
 	return (0);
@@ -39,6 +40,7 @@ int	init(t_env *env)
 	env->theta = 45. * M_PI / 180.;
 	env->phi = 30. * M_PI / 180.;
 	env->scale = (t_coord3){30., 30., 30.};
+	env->color = 0;
 	my_malloc_init(&(env->allocated));
 	return (0);
 }

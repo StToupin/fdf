@@ -22,7 +22,8 @@ static t_coord3	get_coordinates(t_env *env, int x, int y)
 	c.x = (double)x - (double)env->dim.x / 2.;
 	c.y = (double)env->dim.y / 2. - (double)y;
 	c.z = (double)env->map[y][x];
-	c.z = (c.z - env->z_min) / (double)(env->z_max - env->z_min);
+	if (env->z_max != env->z_min)
+		c.z = (c.z - env->z_min) / (double)(env->z_max - env->z_min);
 	return (c);
 }
 
@@ -43,6 +44,15 @@ static void		segment3d_altitude(t_env *env, t_coord3 c0, t_coord3 c1,
 					fcolor);
 }
 
+int				(*colorf(t_env *env))(double)
+{
+	static int (*c_table[N_COLORS])(double) = {
+		&color_jet, &color_terrain,
+		&color_grayscale, &color_red, &color_green, &color_blue};
+
+	return (c_table[env->color]);
+}
+
 void			draw_grid(t_env *env)
 {
 	int			x;
@@ -59,9 +69,9 @@ void			draw_grid(t_env *env)
 		{
 			c = get_coordinates(env, x, y);
 			segment3d_altitude(env, c,
-								get_coordinates(env, x - 1, y), &color_jet);
+								get_coordinates(env, x - 1, y), colorf(env));
 			segment3d_altitude(env, c,
-								get_coordinates(env, x, y - 1), &color_jet);
+								get_coordinates(env, x, y - 1), colorf(env));
 			x++;
 		}
 		y++;

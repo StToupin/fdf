@@ -25,7 +25,8 @@ typedef	enum	e_key
 	KEY_MINUS = 78,
 	KEY_PLUS = 69,
 	KEY_PAGEUP = 116,
-	KEY_PAGEDOWN = 121
+	KEY_PAGEDOWN = 121,
+	KEY_SPACE = 49
 }				t_key;
 
 typedef struct	s_env
@@ -42,6 +43,7 @@ typedef struct	s_env
 	double			theta;
 	t_coord3		scale;
 	t_proj_matrix	pm;
+	int				color;
 }				t_env;
 
 int				init(t_env *env);
@@ -58,6 +60,7 @@ int				load_file(t_env *env, int fd);
 
 int				hook_close(t_env *env);
 int				hook_key(int key, t_env *env);
+int				hook_expose(t_env *env);
 
 int				draw_line(t_env *env, t_coord2c c0, t_coord2c c1,
 							int (*fcolor)(double));

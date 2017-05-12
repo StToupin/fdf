@@ -22,7 +22,7 @@ int		die(t_env *env)
 	ft_putstr_fd("Exiting gracefully.\n", 1);
 	count = my_malloc_cleanup(&(env->allocated));
 	ft_putnbr_fd(count, 1);
-	ft_putstr_fd(" pointer(s) were left.\n", 1);
+	ft_putstr_fd(" pointer(s) were left allocated.\n", 1);
 	if (env->mlx_win != NULL)
 		mlx_destroy_window(env->mlx_ptr, env->mlx_win);
 	exit(0);

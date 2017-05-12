@@ -99,6 +99,12 @@ int						draw_line(t_env *env,
 									t_coord2c c0, t_coord2c c1,
 									int (*fcolor)(double))
 {
+	if (c0.x < 0 || c0.x >= env->win_dim.x
+		|| c0.y < 0 || c0.y >= env->win_dim.y)
+		return (0);
+	if (c1.x < 0 || c1.x >= env->win_dim.x
+		|| c1.y < 0 || c1.y >= env->win_dim.y)
+		return (0);
 	if (ft_iabs(c1.y - c0.y) > ft_iabs(c1.x - c0.x))
 		draw_line_sloppy(env, c0, c1, fcolor);
 	else

@@ -37,6 +37,18 @@ static void	calc_extremums(t_env *env)
 	}
 }
 
+int			print_width_error(int line_number, int w, int expected_w)
+{
+	ft_putstr_fd("Line ", 2);
+	ft_putnbr_fd(line_number, 2);
+	ft_putstr_fd(" is of len ", 2);
+	ft_putnbr_fd(w, 2);
+	ft_putstr_fd(" instead of ", 2);
+	ft_putnbr_fd(expected_w, 2);
+	ft_putstr_fd("!\n", 2);
+	return (1);
+}
+
 int			load_file(t_env *env, int fd)
 {
 	char	*line;
@@ -54,7 +66,7 @@ int			load_file(t_env *env, int fd)
 		if (env->dim.x == -1)
 			env->dim.x = n_numbers;
 		else if (n_numbers != env->dim.x)
-			return (1);
+			return (print_width_error(env->dim.y + 1, n_numbers, env->dim.x));
 		err = ilist_push_front(&(env->allocated), &ilist, line, n_numbers);
 		if (err)
 			return (err);
