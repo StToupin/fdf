@@ -54,26 +54,26 @@ int			load_file(t_env *env, int fd)
 	char	*line;
 	int		n_numbers;
 	t_ilist	ilist;
-	int		err;
 
-	env->dim = (t_coord2){-1, 0};
+	env->dim = (t_coord2){0, 0};
 	ilist_create(&ilist);
+	n_numbers = -1;
 	while (get_next_line(&(env->allocated), fd, &line) == 1)
 	{
 		if (line[0] == '\0')
 			continue ;
+		env->dim.x = n_numbers;
 		n_numbers = count_numbers(line);
-		if (env->dim.x == -1)
-			env->dim.x = n_numbers;
-		else if (n_numbers != env->dim.x)
+		if (n_numbers != env->dim.x && env->dim.x != -1)
 			return (print_width_error(env->dim.y + 1, n_numbers, env->dim.x));
-		err = ilist_push_front(&(env->allocated), &ilist, line, n_numbers);
-		if (err)
-			return (err);
+		if (ilist_push_front(&(env->allocated), &ilist, line, n_numbers))
+			return (1);
 		env->dim.y++;
 		my_malloc_free(&(env->allocated), line);
 	}
-	env->map = ilist_join(&(env->allocated), &ilist);
-	calc_extremums(env);
+	if (!(env->map = ilist_join(&(env->allocated), &ilist)))
+		return (1);
+	if (env->dim.y > 0)
+		calc_extremums(env);
 	return (0);
 }

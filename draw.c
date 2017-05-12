@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "colors.h"
 
-static t_coord3	get_coordinates(t_env *env, int x, int y)
+static t_coord3	get_coord(t_env *env, int x, int y)
 {
 	t_coord3 c;
 
@@ -44,7 +44,7 @@ static void		segment3d_altitude(t_env *env, t_coord3 c0, t_coord3 c1,
 					fcolor);
 }
 
-int				(*colorf(t_env *env))(double)
+int				(*colf(t_env *env))(double)
 {
 	static int (*c_table[N_COLORS])(double) = {
 		&color_jet, &color_terrain,
@@ -61,17 +61,17 @@ void			draw_grid(t_env *env)
 
 	mlx_clear_window(env->mlx_ptr, env->mlx_win);
 	env->pm = make_projection(env->phi, env->theta);
-	y = 1;
+	y = 0;
 	while (y < env->dim.y)
 	{
-		x = 1;
+		x = 0;
 		while (x < env->dim.x)
 		{
-			c = get_coordinates(env, x, y);
-			segment3d_altitude(env, c,
-								get_coordinates(env, x - 1, y), colorf(env));
-			segment3d_altitude(env, c,
-								get_coordinates(env, x, y - 1), colorf(env));
+			c = get_coord(env, x, y);
+			if (x > 0)
+				segment3d_altitude(env, c, get_coord(env, x - 1, y), colf(env));
+			if (y > 0)
+				segment3d_altitude(env, c, get_coord(env, x, y - 1), colf(env));
 			x++;
 		}
 		y++;
