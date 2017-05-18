@@ -6,6 +6,7 @@ NAME = fdf
 SRC = my_malloc.c slist.c get_next_line.c ft.c ilist.c parse_line.c \
 		load_file.c coordinates.c hooks.c colors_basic.c colors.c draw_lines.c \
 		draw.c init.c cleanup.c main.c
+HEADERS = colors.h coordinates.h fdf.h get_next_line.h ilist.h my_malloc.h slist.h
 OBJ = $(SRC:.c=.o)
 
 all: minilibX/libmlx.a $(NAME)
@@ -30,4 +31,6 @@ fclean: clean
 re: fclean all
 
 norminette:
-	norminette *.h $(SRC)
+	norminette $(HEADERS) $(SRC)
+
+.PHONY: all clean fclean re norminette
