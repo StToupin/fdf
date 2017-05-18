@@ -6,7 +6,7 @@
 /*   By: stoupin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 14:09:46 by stoupin           #+#    #+#             */
-/*   Updated: 2017/05/10 14:10:12 by stoupin          ###   ########.fr       */
+/*   Updated: 2017/05/18 11:14:33 by stoupin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,26 @@ int			print_width_error(int line_number, int w, int expected_w)
 int			load_file(t_env *env, int fd)
 {
 	char	*line;
-	int		n_numbers;
+	int		n_last_line;
 	t_ilist	ilist;
 
 	env->dim = (t_coord2){0, 0};
 	ilist_create(&ilist);
-	n_numbers = -1;
+	env->dim.x = -1;
 	while (get_next_line(&(env->allocated), fd, &line) == 1)
 	{
 		if (line[0] == '\0')
 			continue ;
-		env->dim.x = n_numbers;
-		n_numbers = count_numbers(line);
-		if (n_numbers != env->dim.x && env->dim.x != -1)
-			return (print_width_error(env->dim.y + 1, n_numbers, env->dim.x));
-		if (ilist_push_front(&(env->allocated), &ilist, line, n_numbers))
+		n_last_line = env->dim.x;
+		env->dim.x = count_numbers(line);
+		if (n_last_line != env->dim.x && n_last_line != -1)
+			return (print_width_error(env->dim.y + 1, env->dim.x, n_last_line));
+		if (ilist_push_front(&(env->allocated), &ilist, line, env->dim.x))
 			return (1);
 		env->dim.y++;
 		my_malloc_free(&(env->allocated), line);
 	}
-	if (!(env->map = ilist_join(&(env->allocated), &ilist)))
+	if (env->dim.x == -1 || !(env->map = ilist_join(&(env->allocated), &ilist)))
 		return (1);
 	if (env->dim.y > 0)
 		calc_extremums(env);
