@@ -6,11 +6,11 @@
 /*   By: stoupin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 12:19:57 by stoupin           #+#    #+#             */
-/*   Updated: 2017/05/12 12:19:58 by stoupin          ###   ########.fr       */
+/*   Updated: 2017/05/19 10:15:48 by stoupin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int						color_grayscale(double x)
+int	color_grayscale(double x)
 {
 	int rgb;
 
@@ -19,7 +19,7 @@ int						color_grayscale(double x)
 	return (rgb);
 }
 
-int						color_red(double x)
+int	color_red(double x)
 {
 	int rgb;
 
@@ -28,7 +28,7 @@ int						color_red(double x)
 	return (rgb);
 }
 
-int						color_green(double x)
+int	color_green(double x)
 {
 	int rgb;
 
@@ -37,7 +37,7 @@ int						color_green(double x)
 	return (rgb);
 }
 
-int						color_blue(double x)
+int	color_blue(double x)
 {
 	int rgb;
 
